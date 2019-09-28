@@ -6,7 +6,7 @@ import isEmpty from 'lodash.isempty';
 import GoogleMap from '../../components/GoogleMap';
 
 // consts: [34.0522, -118.2437]
-import LOS_ANGELES_CENTER from '../../const/la_center';
+import SANTA_MARIA_CENTER from '../../const/la_center';
 
 // InfoWindow component
 const InfoWindow = (props) => {
@@ -30,24 +30,25 @@ const InfoWindow = (props) => {
       </div>
       <div style={{ fontSize: 14 }}>
         <span style={{ color: 'grey' }}>
-          {place.rating}{' '}
+          {place.name}{' '}
         </span>
         <span style={{ color: 'orange' }}>
-          {String.fromCharCode(9733).repeat(Math.floor(place.rating))}
+          {/* {String.fromCharCode(9733).repeat(Math.floor(place.rating))} */}
         </span>
         <span style={{ color: 'lightgrey' }}>
-          {String.fromCharCode(9733).repeat(5 - Math.floor(place.rating))}
+          {/* {String.fromCharCode(9733).repeat(5 - Math.floor(place.rating))} */}
         </span>
       </div>
       <div style={{ fontSize: 14, color: 'grey' }}>
-        {place.types[0]}
+        {place.name}
       </div>
       <div style={{ fontSize: 14, color: 'grey' }}>
-        {'$'.repeat(place.price_level)}
+        {/* {'$'.repeat(place.name)} */}
       </div>
       <div style={{ fontSize: 14, color: 'green' }}>
-        {place.opening_hours.open_now ? 'Open' : 'Closed'}
+        {true ? 'Open' : 'Closed'}
       </div>
+      <button>Participar</button>
     </div>
   );
 };
@@ -57,8 +58,8 @@ const Marker = (props) => {
   const markerStyle = {
     border: '1px solid white',
     borderRadius: '50%',
-    height: 10,
-    width: 10,
+    height: 20,
+    width: 20,
     backgroundColor: props.show ? 'red' : 'blue',
     cursor: 'pointer',
     zIndex: 10,
@@ -83,22 +84,25 @@ class MarkerInfoWindow extends Component {
 
   componentDidMount() {
     fetch('http://10.39.5.57:3333/events')
-      .then(response => response.data())
+      .then(response => response.json())
       .then((data) => {
         data.forEach((result) => {
           result.show = false; // eslint-disable-line no-param-reassign
         });
+        console.log(data);
         this.setState({ places: data });
       });
     console.log(process.env.REACT_APP_MAP_KEY);
   }
 
   // onChildClick callback can take two arguments: key and childProps
-  onChildClickCallback = (key) => {
-    this.setState((state) => {
-      const index = state.places.findIndex(e => e.id === key);
-      state.places[index].show = !state.places[index].show; // eslint-disable-line no-param-reassign
-      return { places: state.places };
+  onChildClickCallback = key => {
+    this.setState(teste => {
+      const index = teste.places.findIndex(
+        e => parseInt(e.id) === parseInt(key)
+      );
+      teste.places[index].show = !teste.places[index].show; // eslint-disable-line no-param-reassign
+      return { places: teste.places };
     });
   };
 
@@ -110,7 +114,7 @@ class MarkerInfoWindow extends Component {
         {!isEmpty(places) && (
           <GoogleMap
             defaultZoom={10}
-            defaultCenter={LOS_ANGELES_CENTER}
+            defaultCenter={SANTA_MARIA_CENTER}
             bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_KEY }}
             onChildClick={this.onChildClickCallback}
           >
