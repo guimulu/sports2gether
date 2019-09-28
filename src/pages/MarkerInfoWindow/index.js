@@ -311,7 +311,7 @@ class MarkerInfoWindow extends Component {
       <>
         {!isEmpty(places) && (
           <GoogleMap
-            defaultZoom={10}
+            defaultZoom={12}
             defaultCenter={SANTA_MARIA_CENTER}
             bootstrapURLKeys={{ key: process.env.REACT_APP_MAP_KEY }}
             onChildClick={this.onChildClickCallback}
