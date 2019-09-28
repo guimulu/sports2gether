@@ -2,8 +2,9 @@ import React, { Component, Fragment } from 'react';
 // import PropTypes from 'prop-types';
 import isEmpty from 'lodash.isempty';
 
-// examples:
 import { Link } from 'react-router-dom';
+import api from '../../services/api';
+// examples:
 import GoogleMap from '../../components/GoogleMap';
 
 // consts: [34.0522, -118.2437]
@@ -78,7 +79,7 @@ const InfoWindow = props => {
         </span>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <button onClick={() => participarEvento()} style={buttonStyle}>
+        <button onClick={() => participarEvento(place)} style={buttonStyle}>
           Participar
         </button>
       </div>
@@ -86,8 +87,20 @@ const InfoWindow = props => {
   );
 };
 
-function participarEvento() {
-  console.log(userLogged);
+function participarEvento(place) {
+  api
+    .post('/applies', {
+      event_id: place.id,
+      user_id: userLogged.id,
+      status_id: 1,
+      created_at: new Date(),
+    })
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
 }
 
 // Marker component
