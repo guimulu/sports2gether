@@ -2,14 +2,14 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Main from './pages/Main';
-import Repository from './pages/Repository';
+import MarkerInfoWindow from './pages/MarkerInfoWindow';
 
 export default function Routes() {
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact component={Main} />
-        <Route path="/repository/:repository" component={Repository} />
+        <Route path="/marker" component={MarkerInfoWindow} />
       </Switch>
     </BrowserRouter>
   );
